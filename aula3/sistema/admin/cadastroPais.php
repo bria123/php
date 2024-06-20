@@ -22,8 +22,6 @@
           </div>
           <input type="submit" name="enviar" value="Cadastrar País" class="btn btn-primary">
         </form>
-
-
       <?php require "includes/rodape.php"; ?>
     </div>
     

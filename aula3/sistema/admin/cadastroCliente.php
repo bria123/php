@@ -16,8 +16,102 @@
       <?php require "includes/menu.php"; ?>
         <h1>Cadastro Cliente</h1>
 
+        <form method="post" action="acaoCliente.php">
+          <div class="row">
+            <div class="col-md-12">  
+              <div class="form-group">
+                <label for="exampleInputEmail1">Nome do Cliente</label>
+                <input type="text" name="nome" class="form-control" placeholder="Nome do Cliente">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                  <label for="exampleInputEmail1">CPF</label>
+                  <input type="text" name="cpf" class="form-control" placeholder="000.000-00">
+                </div>
+            </div>
+
+            <div class="col-md-4"> 
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Data Nascimento</label>
+                  <input type="date" name="" class="form-control" placeholder="Data Nascimento">
+              </div>
+            </div>
+              
+            <div class="col-md-4">  
+              <div class="form-check form-check-inline" style="margin-top:40px">
+                  <input class="form-check-input" type="radio" name="exampleRadios" value="Masculino" checked>
+                  <label class="form-check-label" for="exampleRadios1">
+                    Masculino
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="exampleRadios"  value="Feminino">
+                  <label class="form-check-label" for="exampleRadios2">
+                    Feminino
+                  </label>
+                </div>
+              </div>
+            </div>
+
+          
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Estado Civil</label>
+                    <input type="date" name="" class="form-control" placeholder="Estado Civil">
+                </div>
+              </div>
+              <div class="col-md-6">
+              <div class="form-group">
+                    <label for="exampleInputEmail1">Renda Mensal</label>
+                    <input type="date" name="" class="form-control" placeholder="Renda Mensal">
+                </div>
+              </div>
+            </div>
+
+          
+            <div class="row">
+            <div class="col-md-4"> 
+              <div class="form-group">
+                    <label for="exampleInputEmail1">Lagradouro</label>
+                    <input type="date" name="" class="form-control" placeholder="Estado Civil">
+                </div>
+              </div>
+            <div class="col-md-4">
+            <div class="form-group">
+                    <label for="exampleInputEmail1">Número</label>
+                    <input type="date" name="" class="form-control" placeholder="Estado Civil">
+                </div>
+            </div>
+            <div class="col-md-4"> 
+            <div class="form-group">
+                    <label for="exampleInputEmail1">Complemento</label>
+                    <input type="date" name="" class="form-control" placeholder="Estado Civil">
+                </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6"> 1 </div>
+            <div class="col-md-6"> 2 </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12"> 
+              <input type="button" value="Enviar" name="enviar" class="btn btn-primary">
+            </div>
+          </div>
+
+      </form> <!-- Fecha form -->
+
       <?php require "includes/rodape.php"; ?>
     </div>
+
+
     
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
