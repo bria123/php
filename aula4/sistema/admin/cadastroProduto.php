@@ -12,11 +12,29 @@
   </head>
   <body>
 
-    <div class="container">
+  <div class="container">
       <?php require "includes/menu.php"; ?>
         <h1>Cadastro Produto</h1>
-
-        <?php require "includes/rodape.php"; ?>
+        <form method="post" action="acao/acaoProduto.php" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Nome do Produto</label>
+            <input type="text" name="produto" class="form-control"  placeholder="Nome do Produto">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Categoria do Produto</label>
+            <input type="text" name="categoria" class="form-control"  placeholder="Categoria Produto">
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlFile1">Arquivo</label>
+            <input type="file" name="foto" class="form-control-file" id="exampleFormControlFile1">
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Mensagem:</label>
+            <textarea class="form-control" name="mensagem" rows="3"></textarea>
+          </div>
+          <input type="submit" name="enviar" value="Cadastrar Produto" class="btn btn-primary">
+        </form>
+      <?php require "includes/rodape.php"; ?>
     </div>
     
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
