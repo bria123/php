@@ -1,0 +1,12 @@
+{
+    "name": "brianneukamp/sistema",
+    "autoload": {
+        "classmap": ["sistema"]
+    },
+    "authors": [
+        {
+            "name": "brian"
+        }
+    ],
+    "require": {}
+}
