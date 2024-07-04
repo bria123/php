@@ -8,7 +8,7 @@ class ComposerStaticInit8f4de7eee4580f48bcc3ecd5f5731938
 {
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'Teste' => __DIR__ . '/../..' . '/sistema/Teste.php',
+        'Teste' => __DIR__ . '/../..' . '/sistema/Controller/Teste.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
