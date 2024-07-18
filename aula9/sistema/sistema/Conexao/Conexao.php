@@ -23,11 +23,8 @@
 
                 if(is_null(self:: $pdo) ){
                     self:: $pdo = new PDO("mysql:host=" . $this->servidor.";dbname=" . $this->banco, $this->usuario, $this->senha);
-
-                    return self::$pdo;
-                    
-
                 }
+                return self::$pdo;
 
             }catch(PDOExecption $ex){
                     echo $ex;

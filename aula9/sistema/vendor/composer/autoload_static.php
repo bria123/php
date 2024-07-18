@@ -15,6 +15,7 @@ class ComposerStaticInit8f4de7eee4580f48bcc3ecd5f5731938
         'Funcoes' => __DIR__ . '/../..' . '/sistema/Funcoes/Funcoes.php',
         'Pais' => __DIR__ . '/../..' . '/sistema/Controller/Pais.php',
         'Teste' => __DIR__ . '/../..' . '/sistema/Controller/Teste.php',
+        'Usuario' => __DIR__ . '/../..' . '/sistema/Controller/Usuario.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

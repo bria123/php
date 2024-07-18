@@ -85,7 +85,7 @@
         //Chamar Conexao com Banco de dados
         public function __construct (){
             $this->con = new Conexao();
-            $this->objfcn = new Funcoes();
+            $this->objfn = new Funcoes();
         }
 
         //Método para Inserir Cliente
@@ -148,33 +148,31 @@
         }
 
         //Método para Recuper o ID do Banco de Dados
-        public function selecionaId($dado){
+        public function selecionaId($dado) {
                 try{
-
-                        $this->id = $this->objfnc->base64($dado, 2); 
-                        $cst = $this->con->conectar()->prepare("SELECT id, nome, estado, mensagem FROM clientes WHERE id: idCliente");
-                        $cst->bindParam(":idCliente" , $this->id , PDO::PARAM_INT);
+                    $this->id = $this->objfn->base64($dado, 2);
+                    $cst = $this->con->conectar()->prepare("SELECT id, nome, estado, mensagem FROM clientes WHERE id = :idCliente ");
+                    $cst->bindParam(":idCliente", $this->id, PDO::PARAM_INT);
+    
                         $cst->execute();
-
+    
                         return $cst->fetch();
-
-                }catch(PDOException $ex) {
-                        echo $ex;
-                }        
-
-        }
+                }
+                catch(PDOException $ex){
+                    echo $ex;
+                }
+            }
 
         //Método Editar
         public function editarCliente($dados){
                 try{
 
-                        $this->id = $this->objfnc->base64($dados['func'], 2);
+                        $this->id = $this->objfn->base64($dados['func'],2);
                         $this->nome = $dados['nome'];
                         $this->estado = $dados['estado'];
                         $this->mensagem = $dados['mensagem']; 
 
-
-                        $cst = $this->con->conectar()->prepare("UPDATE clientes SET  nome=:nome, estado=:estado, mensagem=:mensagem WHERE id: idCliente");
+                        $cst = $this->con->conectar()->prepare("UPDATE clientes SET nome = :nome ,estado = :estado, mensagem = :mensagem WHERE id = :idCliente");
                         $cst->bindParam(":idCliente" , $this->id , PDO::PARAM_INT);
                         $cst->bindParam(":nome" , $this->nome , PDO::PARAM_STR);
                         $cst->bindParam(":estado" , $this->estado , PDO::PARAM_STR);
@@ -191,27 +189,23 @@
                 }        
 
         }
-
         //Método para Deletar 
         public function deletarId($dado){
                 try{
-
-                        $this->id = $this->objfnc->base64($dado, 2); 
-                        $cst = $this->con->conectar()->prepare("DELETE FROM clientes WHERE id: idCliente");
-                        $cst->bindParam(":idCliente" , $this->id , PDO::PARAM_INT);
-
-                        if($cst->execute()){
-                           return "ok";
-                        }else{
-                           return "não deletou";         
+                        $this->id = $this->objfn->base64($dado, 2);
+            
+                        $cst = $this->con->conectar()->prepare("DELETE FROM clientes WHERE id= :idCliente");
+                        $cst->bindParam(":idCliente" , $this->id, PDO::PARAM_INT);
+                            if($cst->execute()){
+                                return "ok";
+                            } else{
+                                return "Não deu";
+                            }
+                        }catch(PDOException $ex){
+                            echo $ex;
                         }
-                
-                }catch(PDOException $ex) {
-                        echo $ex;
-                }        
-
         }
        
-     }
+} 
 
 ?>

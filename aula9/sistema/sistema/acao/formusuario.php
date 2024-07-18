@@ -1,15 +1,15 @@
 <?php
 
     require "../../vendor/autoload.php";
-    $cliente = new Cliente();
+    $usuario = new Usuario();
     $objfn = new Funcoes();
 
     //Cadastrar
     if(isset($_POST['btCadastrar'])){
             
-        if($cliente->inserirCliente($_POST) == "ok" ){
+        if($usuario->inserirUsuario($_POST) == "ok" ){
             echo "inserido com suceso";
-            header("Location: ../View/cliente.php");
+            header("Location: ../View/usuario.php");
         }else{
             echo "Não deu";
         }
@@ -18,9 +18,9 @@
     //Editar
     if(isset($_POST['btAlterar'])){
         
-        if($cliente->editarCliente($_POST) == "ok" ){
+        if($usuario->editarUsuario($_POST) == "ok" ){
             echo "Editado com Sucesso";
-            header("Location: ../View/cliente.php");
+            header("Location: ../View/usuario.php");
         }else{
             echo "Não deu";
         }
@@ -31,12 +31,12 @@
 
         switch($_GET['acao']){
             case "edit" : 
-                    $func = $cliente->selecionaId($_GET['func']);
+                    $func = $usuario->selecionaId($_GET['func']);
                 break;
             case "delet" : 
-                if($cliente->deletarId($_GET['func']) == "ok"){
+                if($usuario->deletarId($_GET['func']) == "ok"){
                     echo "Deletado com Sucesso";
-                    header("Location:../cliente.php");
+                    header("Location:../usuario.php");
                 }else{
                     echo "Não Deletou";
                 }
@@ -62,37 +62,43 @@
 <title>Sistema</title>
 </head>
 <body>
+    
 
 <div class="container"> 
     <?php require "../Includes/menu.php" ?>
     <div class="row">
-        <div class="col-md-4" style="margin-top:40px"> <h1>Cadastro Cliente</h1> </div>
+        <div class="col-md-4" style="margin-top:40px"> <h1>Cadastro Usuário</h1> </div>
         <div class="col-md-8">   </div>
     </div>
     
     <form method="post" action="">
         <div class="form-group">
-            <label for="exampleInputEmail1">Nome do Cliente</label>
+            <label for="exampleInputEmail1">Nome do Usuario</label>
             <input type="text" name="nome" class="form-control" id="nome" value="<?=(isset($func["nome"]) ?  ($func["nome"]) : ("") )   ?>">
         </div>
 
         <div class="form-group">
+            <label for="exampleInputEmail1">Email do Usuario</label>
+            <input type="email" name="email" class="form-control" id="email" value="<?=(isset($func["email"]) ?  ($func["email"]) : ("") )   ?>">
+        </div>
+
+        <div class="form-group">
             <label for="exampleFormControlSelect1">Estado</label>
-                <select name="estado" class="form-control">
-                    <?php
-                    foreach($cliente->selecionarEstado() as $resultado1)
-                    { ?>
-                    <option value="<?php echo $resultado1['id']; ?>">
-                        <?php echo $resultado1['estado']; ?>
-                    </option>
-                    <?php } ?>
+                <select name="nivel" class="form-control">
+                   <option value="ADMIN"> ADMIN </option>
+                   <option value="PADRAO"> PADRÃO </option>
                 </select>
         </div>
 
-            <div class="form-group">
-                <label for="exampleFormControlTextarea1">Mensagem</label>
-                <textarea class="form-control" name="mensagem"  rows="3">   <?php echo (isset($func["mensagem"]) ? ($func["mensagem"]) : ("")  ); ?> </textarea>
-            </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Senha do Usuario</label>
+            <input type="password" name="senha" class="form-control" id="senha" value="<?=(isset($func["senha"]) ?  ($func["senha"]) : ("") )   ?>">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Mensagem</label>
+            <textarea class="form-control" name="mensagem"  rows="3">   <?php echo (isset($func["mensagem"]) ? ($func["mensagem"]) : ("")  ); ?> </textarea>
+        </div>
 
             <input type="submit" class="btn btn-primary"
                 name=" <?= (isset($_GET["acao"]) == "edit" ?

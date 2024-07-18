@@ -14,4 +14,5 @@ return array(
     'Funcoes' => $baseDir . '/sistema/Funcoes/Funcoes.php',
     'Pais' => $baseDir . '/sistema/Controller/Pais.php',
     'Teste' => $baseDir . '/sistema/Controller/Teste.php',
+    'Usuario' => $baseDir . '/sistema/Controller/Usuario.php',
 );

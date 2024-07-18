@@ -1,7 +1,7 @@
 <?php
 
     require "../../vendor/autoload.php";
-    $cliente = new Cliente();
+    $usuario = new Usuario();
     $objfn = new Funcoes();
 
     //Saber qual é a ação Editar e Deletar
@@ -9,12 +9,12 @@
 
         switch($_GET['acao']){
 
-           case "edit":  $func = $cliente->selecionaId($_GET['func']);
+           case "edit":  $func = $usuario->selecionaId($_GET['func']);
              break;
            case "delet": 
-               if( $cliente->deletarId($_GET['func']) == "ok"){
+               if( $usuario->deletarId($_GET['func']) == "ok"){
                    echo "Deletado com Sucesso";
-                   header("Location:cliente.php");
+                   header("Location:usuario.php");
                } else{
                  echo "Não Deletou";
                }
@@ -39,8 +39,8 @@
 <div class="container"> 
     <?php require "../Includes/menu.php" ?>
     <div class="row" style="margin-top:40px">
-        <div class="col-md-6"> <h1>Clientes Cadastrados </h1> </div>
-        <div class="col-md-6"> <a style="float:right" href="../acao/formcliente.php"> Cadastro Cliente </a> </div>
+        <div class="col-md-6"> <h1>Usuarios Cadastrados </h1> </div>
+        <div class="col-md-6"> <a style="float:right" href="../acao/formusuario.php"> Cadastrar Usuarios </a> </div>
     </div>
 
         <table class="table">
@@ -48,7 +48,9 @@
                 <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Nome</th>
-                <th scope="col">Estado</th>
+                <th scope="col">Email</th>
+                <th scope="col">Nível</th>
+                <th scope="col">Senha</th>
                 <th scope="col">Mensagem</th>
                 <th scope="col">Editar</th>
                 <th scope="col">Deletar</th>
@@ -57,14 +59,16 @@
             <tbody>
         <?php
           $contagem = 1;
-          foreach($cliente->selecionarCliente() as $ytaa ){
+          foreach($usuario->selecionarUsuario() as $ytaa ){
             ?>
                 <tr>
                     <th scope="row"><?php echo $contagem++; ?></th>
                     <td><?php echo $ytaa['nome'];  ?></td>
-                    <td><?php echo $ytaa['estado'];  ?></td>
+                    <td><?php echo $ytaa['email'];  ?></td>
+                    <td><?php echo $ytaa['nivel'];  ?></td>
+                    <td><?php echo $ytaa['senha'];  ?></td>
                     <td><?php echo $ytaa['mensagem'];  ?></td>
-                    <td><a class="btn btn-warning" href="../acao/formcliente.php?acao=edit&func=<?= $objfn->base64($ytaa["id"], 1) ?>">Editar</a></td>
+                    <td><a class="btn btn-warning" href="../acao/formusuario.php?acao=edit&func=<?= $objfn->base64($ytaa["id"], 1) ?>">Editar</a></td>
                     <td><a class="btn btn-danger" href="?acao=delet&func=<?= $objfn->base64($ytaa["id"], 1) ?>">Deletar</a>
                 </tr>
         <?php } ?>
