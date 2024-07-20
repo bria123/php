@@ -7,23 +7,23 @@
 </head>
 <body>
 <?php
-       session_start();
-       require "../../vendor/autoload.php";
-       $a = new Usuario();
+    require_once "../../vendor/autoload.php";
+    $a = new Usuario();
 
+    session_start();
 
-        if($_SESSION["logado"] == "logar")
-        {
-            $a->verificaLogado($_SESSION["func"]);
-        }
-        else
-        {
-            header("Location:index.php");
-        }
+    if($_SESSION["logado"] == "logar")
+    {
+        $a->verificaUsuario($_SESSION["func"]);
+    }
+    else
+    {
+        header("Location:http://localhost/phpstorm/");
+    }
     ?>
 
 <div class="container">
-    <?php require "../Includes/menu.php" ?>
+    <?php require_once "../Includes/menu.php";?>
     <h2> Olá <?php echo $_SESSION["nome"] . " " . $_SESSION["nivel"]; ?></h2>
     <?php
             if($_SESSION["nivel"] == "ADMIN"  )
@@ -36,7 +36,7 @@
             }
             else
             {
-                header("Location:index.php");
+                header("Location:http://localhost/phpstorm/");
             }
 
 

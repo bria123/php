@@ -78,15 +78,17 @@
 
         <div class="form-group">
             <label for="exampleFormControlSelect1">Estado</label>
-                <select name="estado" class="form-control">
-                    <?php
-                    foreach($cliente->selecionarEstado() as $resultado1)
-                    { ?>
-                    <option value="<?php echo $resultado1['id']; ?>">
-                        <?php echo $resultado1['estado']; ?>
-                    </option>
-                    <?php } ?>
-                </select>
+            <select class="form-control"  name="estado" id="estado">
+                        <?php
+                        foreach ($cliente->selecionarEstado() as $rst){
+                            if ($rst["id"] == $func["estado"] ):
+                                ?>
+                                <option value='<?php echo $rst["id"]; ?>' selected> <?php echo $rst["estado"]; ?></option>;
+                            <?php else:
+                                ?>
+                                <option value='<?php echo $rst["id"]; ?>'><?php echo $rst["estado"]; ?></option>;
+                            <?php endif; }?>
+      </select>
         </div>
 
             <div class="form-group">

@@ -43,40 +43,92 @@
         <div class="col-md-6"> <a style="float:right" href="../acao/formusuario.php"> Cadastrar Usuarios </a> </div>
     </div>
 
-        <table class="table">
-            <thead>
-                <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Email</th>
-                <th scope="col">Nível</th>
-                <th scope="col">Senha</th>
-                <th scope="col">Mensagem</th>
-                <th scope="col">Editar</th>
-                <th scope="col">Deletar</th>
-                </tr>
-            </thead>
-            <tbody>
-        <?php
-          $contagem = 1;
-          foreach($usuario->selecionarUsuario() as $ytaa ){
+    <div style="overflow-x: auto">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Senha</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Observação</th>
+                            <th scope="col">Editar</th>
+                            <th scope="col">Deletar</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $paginaAtual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+                        $paginaAtual = empty($paginaAtual) ? 1 : $paginaAtual;
+
+                        echo "Debug: Página Atual antes de obterUsuariosPaginados: $paginaAtual<br>";
+
+
+                        try {
+                            $totalUsuarios = $usuario->contarTotalUsuarios();
+                            $totalPaginas = ceil($totalUsuarios / Usuario::REGISTROS_POR_PAGINA);
+
+                            echo "Debug: Total de usuários no banco: " . $totalUsuarios . "<br>";
+                            echo "Debug: Total de páginas: " . $totalPaginas . "<br>";
+
+                            $usuario = $usuario->obterUsuariosPaginados($paginaAtual);
+
+                            echo "Debug: Total de usuários na página: " . count($usuario) . "<br>";
+                        ?>
+
+                    <?php foreach ($usuario as $resultado): ?>
+                        <tr>
+                            <th scope="row"><?php echo $resultado['id']; ?></th>
+                            <td><?php echo $resultado['nome']; ?></td>
+                            <td><?php echo $resultado['email']; ?></td>
+                            <td><?php echo $resultado['senha']; ?></td>
+                            <td><?php echo $resultado['nivel']; ?></td>
+                            <td><?php echo $resultado['mensagem']; ?></td>
+                            <td><a class="btn btn-info" href="../acao/formusuario.php?acao=edit&func=<?= $objfn->base64($resultado["id"], 1) ?>">Editar</a></td>
+                            <td><a class="btn btn-danger" href="?acao=delet&func=<?= $objfn->base64($resultado["id"], 1) ?>">Deletar</a></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+
+            <tr>
+                <td colspan="8">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item <?php echo ($paginaAtual == 1) ? 'disabled' : ''; ?>">
+                                <a class="page-link" href="?pagina=<?php echo $paginaAtual - 1; ?>" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <?php for ($pagina = 1; $pagina <= $totalPaginas; $pagina++): ?>
+                                <li class="page-item <?php echo ($pagina == $paginaAtual) ? 'active' : ''; ?>">
+                                    <a class="page-link" href="?pagina=<?php echo $pagina; ?>"><?php echo $pagina; ?></a>
+                                </li>
+                            <?php endfor; ?>
+                            <li class="page-item <?php echo ($paginaAtual == $totalPaginas) ? 'disabled' : ''; ?>">
+                                <a class="page-link" href="?pagina=<?php echo $paginaAtual + 1; ?>" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </td>
+            </tr>
+
+            <?php
+            } catch (Exception $e) {
+                echo 'Erro ao obter usuários paginados: ' . $e->getMessage();
+            }
             ?>
-                <tr>
-                    <th scope="row"><?php echo $contagem++; ?></th>
-                    <td><?php echo $ytaa['nome'];  ?></td>
-                    <td><?php echo $ytaa['email'];  ?></td>
-                    <td><?php echo $ytaa['nivel'];  ?></td>
-                    <td><?php echo $ytaa['senha'];  ?></td>
-                    <td><?php echo $ytaa['mensagem'];  ?></td>
-                    <td><a class="btn btn-warning" href="../acao/formusuario.php?acao=edit&func=<?= $objfn->base64($ytaa["id"], 1) ?>">Editar</a></td>
-                    <td><a class="btn btn-danger" href="?acao=delet&func=<?= $objfn->base64($ytaa["id"], 1) ?>">Deletar</a>
-                </tr>
-        <?php } ?>
-            </tbody>
-         </table>
-    
-         <?php require "../Includes/rodape.php" ?>
-    </div>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <?php require "../Includes/rodape.php"; ?>
+            </div>
+
 
 <!-- JavaScript (Opcional) -->
 <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->

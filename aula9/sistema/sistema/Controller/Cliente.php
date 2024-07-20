@@ -80,8 +80,6 @@
                 return $this;
         }
 
-       
-
         //Chamar Conexao com Banco de dados
         public function __construct (){
             $this->con = new Conexao();
@@ -146,7 +144,6 @@
                 echo $ex;
             }
         }
-
         //Método para Recuper o ID do Banco de Dados
         public function selecionaId($dado) {
                 try{
@@ -205,7 +202,29 @@
                             echo $ex;
                         }
         }
-       
+        //Método para Pesquisar Clientes
+        public function querySelecionaFiltro($filtro) {
+                try
+                {
+                        $cst = $this->con->conectar()->prepare("
+                        SELECT i.id, i.nome, i.mensagem, e.estado
+                        FROM clientes i
+                        JOIN estado e ON e.id = i.estado
+                        WHERE i.nome LIKE :filtro
+                        ");
+
+                $filtro = "%$filtro%";
+                $cst->bindParam(':filtro', $filtro, PDO::PARAM_STR);
+        
+                $cst->execute();
+        
+                return $cst->fetchAll();
+            }
+            catch (PDOException $ex)
+            {
+                echo $ex->getMessage(); // Alterei para exibir a mensagem de erro ao invés do objeto
+            }
+        }
 } 
 
 ?>

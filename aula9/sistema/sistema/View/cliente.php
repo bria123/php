@@ -43,7 +43,15 @@
         <div class="col-md-6"> <a style="float:right" href="../acao/formcliente.php"> Cadastro Cliente </a> </div>
     </div>
 
-        <table class="table">
+     <form method="post" action="">
+        <div class="form-group mt-5">
+                <label for="exampleFormControlInput1">Filtro:</label>
+                <input type="text" name="filtro" id="filtro" class="form-control col-md-4" placeholder="Nome">
+            </div>
+        <input type="submit" class="btn btn-primary" name="btnfiltro" value="Consultar">
+    </form>
+
+        <table class="table" style="margin-top:50px">
             <thead>
                 <tr>
                 <th scope="col">ID</th>
@@ -55,9 +63,17 @@
                 </tr>
             </thead>
             <tbody>
-        <?php
-          $contagem = 1;
-          foreach($cliente->selecionarCliente() as $ytaa ){
+            <?php
+                if (isset($_POST["btnfiltro"])) {
+                    $filtro = $_POST['filtro'];
+                    $contagem = 1;
+                    $resultados = $cliente->querySelecionaFiltro($filtro);
+                } else {
+                    $contagem = 1;
+                    $resultados = $cliente->selecionarCliente();
+                }
+
+                foreach ($resultados as $ytaa) {
             ?>
                 <tr>
                     <th scope="row"><?php echo $contagem++; ?></th>

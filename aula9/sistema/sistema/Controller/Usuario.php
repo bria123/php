@@ -9,6 +9,7 @@
         private $nivel;
         private $senha;
         private $mensagem;
+        const REGISTROS_POR_PAGINA = 5;
 
         /**
          * Get the value of id
@@ -130,7 +131,8 @@
             $this->nome = $dados['nome'];
             $this->email = $dados['email'];
             $this->nivel = $dados['nivel'];
-            $this->senha = password_hash($dados['senha'], PASSWORD_DEFAULT);
+            //$this->senha = password_hash($dados['senha'], PASSWORD_DEFAULT);
+            $this->senha = sha1($dados['senha']);
             $this->mensagem = $dados['mensagem'];
 
             $cst =  $this->con->conectar()->prepare("INSERT INTO usuario (nome,email,nivel,senha,mensagem) VALUES (:nome,:email,:nivel,:senha,:mensagem) ");
@@ -234,8 +236,7 @@
                 $this->email = $dados["email"];
                 $this->senha = sha1( $dados["senha"] );
 
-                try{
-                        
+                try{ 
                         $cst = $this->con->conectar()->prepare("SELECT id, email, senha  FROM usuario WHERE email = :email AND senha = :senha ");
                         $cst->bindParam(":email", $this->email, PDO::PARAM_STR);
                         $cst->bindParam(":senha", $this->senha, PDO::PARAM_STR);
@@ -243,43 +244,73 @@
                                 $cst->execute();
 
                                 if($cst->rowCount() == 0 ){
-                                        header("../View/logar.php");
+                                        header("Location:../View/logar.php");
                                 } else{
                                         session_start();
                                         $rst = $cst->fetch();
                                         $_SESSION['logado'] = "logar";
                                         $_SESSION['func'] = $rst['id'];
-                                        header("Location:../index.php");
+                                        header("Location:http://localhost:8080/php/php/aula9/sistema/sistema/View/index.php");
 
                                 }
                         }
                         catch(PDOException $ex){
-                        echo $ex;
+                                echo $ex;
                         }
         }
         //Método Verificar Usuario imprime a Sessao de dados
-        public function verificaUsuarios($dados){
-                try{
-                        
-                        $cst = $this->con->conectar()->prepare("SELECT id, nome, email, senha, nivel,mensagem  FROM usuario WHERE id = :idUsuario ");
-                        $cst->bindParam(":id", $dados, PDO::PARAM_INT);
+        public function verificaUsuario($dado)
+        {
+                $cst = $this->con->conectar()->prepare("SELECT id,email,senha,nivel,nome FROM usuario WHERE id=:id");
+                $cst->bindParam(":id", $dado, PDO::PARAM_INT);
 
-                                $cst->execute();
-                                $rst = $cst->ftech();
-                        
-                                $_SESSION['nome'] = $rst['nome'];
-                                $_SESSION['email'] = $rst['email'];
-                                $_SESSION['nivel'] = $rst['nivel'];
-                                    
-                        }
-                        catch(PDOException $ex){
-                        echo $ex;
-                        }
+                $cst->execute();
+
+                $rst = $cst->fetch();
+
+                $_SESSION["nome"] = $rst["nome"];
+                $_SESSION["nivel"] = $rst["nivel"];
         }
         //Método para Deslogar Usuário
         public function deslogarUsuarios(){
                 session_destroy();
                 header("Location: ../View/logar.php");
+        }
+         // Método para Obter usuários
+        public function obterUsuariosPaginados($paginaAtual)
+        {
+            try {
+                $registrosPorPagina = self::REGISTROS_POR_PAGINA;
+                $offset = max(($paginaAtual - 1) * $registrosPorPagina, 0);
+
+                echo "Debug: Página Atual: $paginaAtual, Offset: $offset<br>";
+                echo "Debug: Consulta SQL: SELECT * FROM usuario ORDER BY id ASC LIMIT $offset, $registrosPorPagina<br>";
+
+                $cst = $this->con->conectar()->prepare("SELECT * FROM usuario ORDER BY id ASC LIMIT $offset, $registrosPorPagina");
+                //SELECT * FROM usuario ORDER BY id LIMIT 3, 5
+
+                $cst->execute();
+
+                $usuarios = $cst->fetchAll(PDO::FETCH_ASSOC);
+
+                echo "Debug: Número de Registros Retornados: " . count($usuarios) . "<br>";
+
+                return $usuarios;
+            } catch (PDOException $ex) {
+                echo 'Erro ao obter usuários paginados: ' . $ex->getMessage();
+            }
+        }
+        // Método para contar o total de usuários
+        public function contarTotalUsuarios()
+        {
+            try {
+                $cst = $this->con->conectar()->prepare("SELECT COUNT(*) AS total FROM usuario");
+                $cst->execute();
+                $resultado = $cst->fetch(PDO::FETCH_ASSOC);
+                return $resultado['total'];
+            } catch (PDOException $ex) {
+                echo $ex;
+            }
         }
 
 
